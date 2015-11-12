@@ -12,6 +12,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import model.Connection;
+import model.User;
 
 /**
  *
@@ -24,14 +25,8 @@ public class TweetCassandra {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Session session = Connection.getSession();
-        
-        Insert insert = QueryBuilder.insertInto("pat", "users")
-                                .value("username", "akhfa4")
-                                .value("password", "akhfa2");
-        System.out.println(insert.toString());
-        ResultSet result = session.execute(insert.toString());
-        System.out.println(result.toString());
+        User user = new User("akhfa10", "akhfa10");
+        user.save();
         
 //        session.execute("INSERT INTO users (username, password) VALUES ('akhfa1', 'akhfa');");
 //        ResultSet results = session.execute("SELECT * FROM users WHERE username='akhfa';");
@@ -39,7 +34,6 @@ public class TweetCassandra {
 //            System.out.format("%s %d\n", row.getString("firstname"), row.getInt("age"));
 //        }
         
-        Connection.close();
     }
     
 }
