@@ -5,15 +5,9 @@
  */
 package controller;
 
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
-import com.datastax.driver.core.querybuilder.Insert;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
-import model.Connection;
-import static model.Connection.getSession;
+import java.util.Date;
+import model.Follower;
+import model.Friend;
 import model.User;
 
 /**
@@ -48,5 +42,21 @@ public class Logic {
     {
         User user = new User(_username, _password);
         return user.login();
+    }
+    
+    public boolean follow(String from, String destination)
+    {
+        User user1 = new User(from);
+        User user2 = new User(destination);
+        if(user2.exist())
+        {
+            Follower followerManajer = new Follower(destination, from, new Date().getTime());
+            followerManajer.save();
+            Friend friendManajer = new Friend(from, destination, new Date().getTime());
+            friendManajer.save();
+            return true;
+        }
+        else
+            return false;
     }
 }

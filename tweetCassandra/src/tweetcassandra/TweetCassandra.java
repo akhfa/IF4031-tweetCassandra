@@ -78,23 +78,42 @@ public class TweetCassandra {
                         else 
                             System.out.println("Password salah. Coba lagi.");
                         break;
-                    default:
+                    case "exit":
                         System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Wrong command");
                 }
             }
             else
             {
                 if(first)
+                {
                     System.out.println("Selamat datang " + username);
+                    first = false;
+                }
+                System.out.println("To follow,      ketik: follow [username]");
+                System.out.println("To send tweet,  ketik: tweet ");
                 System.out.print(username + ":~$ ");
-                
                 Scanner in = new Scanner(System.in);
                 String command = in.nextLine();
 
                 String [] com = command.split(" ");
                 switch(com[0])
                 {
-                    
+                    case "follow":
+                        if(logic.follow(username, com[1]))
+                        {
+                            System.out.println("You follow " + com[1]);
+                        }
+                        else
+                        {
+                            System.out.println(com[1] + " not exist. Coba lagi.");
+                        }
+                        break;
+//                    case 
+                    default:
+                        System.out.println("Wrong command");
                 }
             }
         }
