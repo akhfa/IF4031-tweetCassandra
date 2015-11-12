@@ -11,8 +11,18 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.utils.UUIDs;
+import controller.Logic;
+import java.util.Date;
+import java.util.Scanner;
+//import java.util.UUID;
 import model.Connection;
+import model.Follower;
+import model.Friend;
+import model.TimeLine;
+import model.Tweet;
 import model.User;
+import model.UserLine;
 
 /**
  *
@@ -25,15 +35,66 @@ public class TweetCassandra {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        User user = new User("akhfa10", "akhfa10");
-        user.save();
+        String username = "";
+        boolean guest = true;
+        boolean first = true;
+        Logic logic = new Logic();
         
-//        session.execute("INSERT INTO users (username, password) VALUES ('akhfa1', 'akhfa');");
-//        ResultSet results = session.execute("SELECT * FROM users WHERE username='akhfa';");
-//        for (Row row : results) {
-//            System.out.format("%s %d\n", row.getString("firstname"), row.getInt("age"));
-//        }
-        
+        while (true)
+        {
+            if(guest)
+            {
+                if(first)
+                {
+                    System.out.println("Selamat Datang");
+                    first = false;
+                }
+                    
+                System.out.println("To register,    ketik: reg [username] [password]");
+                System.out.println("To login,       ketik: login [username] [password]");
+                System.out.println("To exit,        ketik: exit");
+                System.out.print("guest:~$ ");
+                Scanner in = new Scanner(System.in);
+                String command = in.nextLine();
+
+                String [] com = command.split(" ");
+                switch(com[0])
+                {
+                    case "reg":
+                        if(logic.register(com[1], com[2]))
+                        {
+                            username = com[1];
+                            guest = false;
+                        }
+                        break;
+                    case "login":
+                        if(logic.login(com[1], com[2]))
+                        {
+                            username = com[1];
+                            first = true;
+                            guest = false;
+                        }
+                        else 
+                            System.out.println("Password salah. Coba lagi.");
+                        break;
+                    default:
+                        System.exit(0);
+                }
+            }
+            else
+            {
+                if(first)
+                    System.out.println("Selamat datang " + username);
+                System.out.print(username + ":~$ ");
+                Scanner in = new Scanner(System.in);
+                String command = in.nextLine();
+
+                String [] com = command.split(" ");
+                switch(com[0])
+                {
+                    
+                }
+            }
+        }
     }
-    
 }
