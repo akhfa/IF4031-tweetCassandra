@@ -6,9 +6,13 @@
 package model;
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import java.util.ArrayList;
 
 /**
  *
@@ -36,5 +40,25 @@ public class Follower {
                                 .value("since", timestamp);
         ResultSet result = session.execute(insert.toString());
         Connection.close();
+    }
+    
+    /**
+     * Mendapatkan follower dari username tertentu
+     * @param username 
+     */
+    public static ArrayList<String> getAllFollowerFrom(String _username)
+    {
+        ArrayList<String> daftarFollower = new ArrayList<>();
+        Session session = Connection.getSession();
+        
+        Statement statement = QueryBuilder.select("follower")
+                                            .from("pat", "followers")
+                                            .where(eq("username", _username));
+        ResultSet results = session.execute(statement);
+        
+        for (Row row : results) {
+            daftarFollower.add(row.getString("follower"));
+        }
+        return daftarFollower;
     }
 }

@@ -93,12 +93,12 @@ public class TweetCassandra {
                     first = false;
                 }
                 System.out.println("To follow,      ketik: follow [username]");
-                System.out.println("To send tweet,  ketik: tweet ");
+                System.out.println("To send tweet,  ketik: tweet [body]");
                 System.out.print(username + ":~$ ");
                 Scanner in = new Scanner(System.in);
                 String command = in.nextLine();
 
-                String [] com = command.split(" ");
+                String [] com = command.split(" ",2);
                 switch(com[0])
                 {
                     case "follow":
@@ -111,7 +111,16 @@ public class TweetCassandra {
                             System.out.println(com[1] + " not exist. Coba lagi.");
                         }
                         break;
-//                    case 
+                    case "tweet":
+                        if(logic.postTweet(username, com[1]))
+                        {
+                            System.out.println("Tweet successfully posted");
+                        }
+                        else
+                        {
+                            System.out.println("Tweet not successfully posted");
+                        }
+                    break;
                     default:
                         System.out.println("Wrong command");
                 }

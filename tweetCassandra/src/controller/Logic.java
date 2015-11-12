@@ -5,10 +5,16 @@
  */
 package controller;
 
+import com.datastax.driver.core.utils.UUIDs;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 import model.Follower;
 import model.Friend;
+import model.TimeLine;
+import model.Tweet;
 import model.User;
+import model.UserLine;
 
 /**
  *
@@ -58,5 +64,27 @@ public class Logic {
         }
         else
             return false;
+    }
+    
+    public boolean postTweet(String username, String body)
+    {
+        UUID tweetuuid = UUIDs.random();
+        UUID timeuuid = UUIDs.timeBased();
+        Tweet tweet = new Tweet(tweetuuid, username, body);
+        tweet.save();
+        UserLine userline = new UserLine(username, timeuuid, tweetuuid);
+        userline.save();
+        TimeLine timeline = new TimeLine(username, timeuuid, tweetuuid);
+        timeline.save();
+        
+        ArrayList<String> daftarFollower = Follower.getAllFollowerFrom(username);
+        for(String follower : daftarFollower)
+        {
+            System.out.println("follower = " + follower);
+            TimeLine timelineTemp = new TimeLine(follower, timeuuid, tweetuuid);
+            timelineTemp.save();
+        }
+        
+        return true;
     }
 }
