@@ -94,8 +94,20 @@ public class Logic {
         ArrayList<TweetContainer> tweets = UserLine.getAllTweetFrom(_username);
         for(TweetContainer tweet : tweets)
         {
-            System.out.println("Username: " + tweet.getUsername());
-            System.out.println("Body: " + tweet.getBody());
+            System.out.println("@ " + tweet.getUsername());
+            System.out.println("" + tweet.getBody());
+            System.out.println("===================================");
+        }
+    }
+    
+    public void printTimeline(String _username)
+    {
+        ArrayList<TweetContainer> tweets = TimeLine.getAllTweetFrom(_username);
+        for(TweetContainer tweet : tweets)
+        {
+            System.out.println("@ " + tweet.getUsername());
+            System.out.println(tweet.getBody());
+            System.out.println("===================================");
         }
     }
 }

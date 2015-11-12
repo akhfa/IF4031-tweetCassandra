@@ -95,6 +95,8 @@ public class TweetCassandra {
                 System.out.println("To follow,          ketik: follow [username]");
                 System.out.println("To send tweet,      ketik: tweet [body]");
                 System.out.println("To see userline,    ketik: userline");
+                System.out.println("To see timeline,    ketik: timeline");
+                System.out.println("To logout,          ketik: logout");
                 System.out.print(username + ":~$ ");
                 Scanner in = new Scanner(System.in);
                 String command = in.nextLine();
@@ -124,6 +126,12 @@ public class TweetCassandra {
                         break;
                     case "userline":
                         logic.printUserline(username);
+                        break;
+                    case "timeline":
+                        logic.printTimeline(username);
+                        break;
+                    case "logout":
+                        guest = true;
                         break;
                     default:
                         System.out.println("Wrong command");
