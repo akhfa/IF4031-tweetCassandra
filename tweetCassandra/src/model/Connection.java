@@ -26,4 +26,8 @@ public class Connection {
     {
         cluster.close();
     }
+    public static String getKeySpace()
+    {
+        return "pat";
+    }
 }

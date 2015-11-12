@@ -34,7 +34,7 @@ public class Follower {
     {
         Session session = Connection.getSession();
         
-        Insert insert = QueryBuilder.insertInto("pat", "followers")
+        Insert insert = QueryBuilder.insertInto(Connection.getKeySpace(), "followers")
                                 .value("username", username)
                                 .value("follower", follower)
                                 .value("since", timestamp);
@@ -52,7 +52,7 @@ public class Follower {
         Session session = Connection.getSession();
         
         Statement statement = QueryBuilder.select("follower")
-                                            .from("pat", "followers")
+                                            .from(Connection.getKeySpace(), "followers")
                                             .where(eq("username", _username));
         ResultSet results = session.execute(statement);
         

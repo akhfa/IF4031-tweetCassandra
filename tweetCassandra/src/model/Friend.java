@@ -29,7 +29,7 @@ public class Friend {
     {
         Session session = Connection.getSession();
         
-        Insert insert = QueryBuilder.insertInto("pat", "friends")
+        Insert insert = QueryBuilder.insertInto(Connection.getKeySpace(), "friends")
                                 .value("username", username)
                                 .value("friend", friend)
                                 .value("since", timestamp);

@@ -37,7 +37,7 @@ public class UserLine {
     {
         Session session = Connection.getSession();
         
-        Insert insert = QueryBuilder.insertInto("pat", "userline")
+        Insert insert = QueryBuilder.insertInto(Connection.getKeySpace(), "userline")
                                 .value("username", username)
                                 .value("time", time)
                                 .value("tweet_id", tweet_id);
@@ -51,13 +51,13 @@ public class UserLine {
         Session session = Connection.getSession();
         
         Statement statement = QueryBuilder.select("tweet_id")
-                                            .from("pat", "userline")
+                                            .from(Connection.getKeySpace(), "userline")
                                             .where(eq("username", _username));
         ResultSet results = session.execute(statement);
         
         for (Row row : results) {
             Statement statement2 = QueryBuilder.select().all()
-                                            .from("pat", "tweets")
+                                            .from(Connection.getKeySpace(), "tweets")
                                             .where(eq("tweet_id", row.getUUID("tweet_id")));
             ResultSet results2 = session.execute(statement2);
             

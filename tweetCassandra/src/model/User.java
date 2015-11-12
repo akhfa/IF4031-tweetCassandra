@@ -36,7 +36,7 @@ public class User {
     {
         Session session = Connection.getSession();
         
-        Insert insert = QueryBuilder.insertInto("pat", "users")
+        Insert insert = QueryBuilder.insertInto(Connection.getKeySpace(), "users")
                                 .value("username", username)
                                 .value("password", password);
         ResultSet result = session.execute(insert.toString());
@@ -48,7 +48,7 @@ public class User {
         Session session = Connection.getSession();
         
         Statement statement = QueryBuilder.select("username")
-                                            .from("pat", "users")
+                                            .from(Connection.getKeySpace(), "users")
                                             .where(eq("username", username));
         ResultSet results = session.execute(statement);
         Row row = results.one();
@@ -64,7 +64,7 @@ public class User {
         Session session = Connection.getSession();
         
         Statement statement = QueryBuilder.select().all()
-                                            .from("pat", "users")
+                                            .from(Connection.getKeySpace(), "users")
                                             .where(eq("username", username));
         ResultSet results = session.execute(statement);
         

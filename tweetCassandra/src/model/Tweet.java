@@ -32,7 +32,7 @@ public class Tweet {
     {
         Session session = Connection.getSession();
         
-        Insert insert = QueryBuilder.insertInto("pat", "tweets")
+        Insert insert = QueryBuilder.insertInto(Connection.getKeySpace(), "tweets")
                                 .value("tweet_id", uuid)
                                 .value("username", username)
                                 .value("body", body);
