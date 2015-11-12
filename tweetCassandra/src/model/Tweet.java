@@ -10,19 +10,22 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.utils.UUIDs;
+import java.util.UUID;
 
 /**
  *
  * @author akhfa
  */
 public class Tweet {
+    private UUID uuid;
     private String username;
     private String body;
     
-    public Tweet(String _username, String _body)
+    public Tweet(UUID _uuid, String _username, String _body)
     {
         this.username = _username;
         this.body = _body;
+        this.uuid = _uuid;
     }
     
     public void save()
@@ -30,7 +33,7 @@ public class Tweet {
         Session session = Connection.getSession();
         
         Insert insert = QueryBuilder.insertInto("pat", "tweets")
-                                .value("tweet_id", UUIDs.random())
+                                .value("tweet_id", uuid)
                                 .value("username", username)
                                 .value("body", body);
         ResultSet result = session.execute(insert.toString());
