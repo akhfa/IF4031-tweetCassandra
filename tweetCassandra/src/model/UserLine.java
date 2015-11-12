@@ -6,10 +6,16 @@
 package model;
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import com.datastax.driver.core.utils.UUIDs;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -37,5 +43,34 @@ public class UserLine {
                                 .value("tweet_id", tweet_id);
         ResultSet result = session.execute(insert.toString());
         Connection.close();
+    }
+    
+    public static ArrayList<TweetContainer> getAllTweetFrom(String _username)
+    {
+        ArrayList<TweetContainer> tweets = new ArrayList<>();
+        Session session = Connection.getSession();
+        
+        Statement statement = QueryBuilder.select("tweet_id")
+                                            .from("pat", "userline")
+                                            .where(eq("username", _username));
+        ResultSet results = session.execute(statement);
+        
+        for (Row row : results) {
+            Statement statement2 = QueryBuilder.select().all()
+                                            .from("pat", "tweets")
+                                            .where(eq("tweet_id", row.getUUID("tweet_id")));
+            ResultSet results2 = session.execute(statement2);
+            
+            Row tweet = results2.one();
+            if(tweet != null)
+            {
+                String username = tweet.getString("username");
+                String body = tweet.getString("body");
+                TweetContainer container = new TweetContainer(username, body);
+                tweets.add(container);
+            }
+        }
+        
+        return tweets;
     }
 }

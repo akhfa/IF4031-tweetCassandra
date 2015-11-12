@@ -92,8 +92,9 @@ public class TweetCassandra {
                     System.out.println("Selamat datang " + username);
                     first = false;
                 }
-                System.out.println("To follow,      ketik: follow [username]");
-                System.out.println("To send tweet,  ketik: tweet [body]");
+                System.out.println("To follow,          ketik: follow [username]");
+                System.out.println("To send tweet,      ketik: tweet [body]");
+                System.out.println("To see userline,    ketik: userline");
                 System.out.print(username + ":~$ ");
                 Scanner in = new Scanner(System.in);
                 String command = in.nextLine();
@@ -120,7 +121,10 @@ public class TweetCassandra {
                         {
                             System.out.println("Tweet not successfully posted");
                         }
-                    break;
+                        break;
+                    case "userline":
+                        logic.printUserline(username);
+                        break;
                     default:
                         System.out.println("Wrong command");
                 }

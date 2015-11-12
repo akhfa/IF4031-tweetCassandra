@@ -13,6 +13,7 @@ import model.Follower;
 import model.Friend;
 import model.TimeLine;
 import model.Tweet;
+import model.TweetContainer;
 import model.User;
 import model.UserLine;
 
@@ -66,18 +67,18 @@ public class Logic {
             return false;
     }
     
-    public boolean postTweet(String username, String body)
+    public boolean postTweet(String _username, String _body)
     {
         UUID tweetuuid = UUIDs.random();
         UUID timeuuid = UUIDs.timeBased();
-        Tweet tweet = new Tweet(tweetuuid, username, body);
+        Tweet tweet = new Tweet(tweetuuid, _username, _body);
         tweet.save();
-        UserLine userline = new UserLine(username, timeuuid, tweetuuid);
+        UserLine userline = new UserLine(_username, timeuuid, tweetuuid);
         userline.save();
-        TimeLine timeline = new TimeLine(username, timeuuid, tweetuuid);
+        TimeLine timeline = new TimeLine(_username, timeuuid, tweetuuid);
         timeline.save();
         
-        ArrayList<String> daftarFollower = Follower.getAllFollowerFrom(username);
+        ArrayList<String> daftarFollower = Follower.getAllFollowerFrom(_username);
         for(String follower : daftarFollower)
         {
             System.out.println("follower = " + follower);
@@ -86,5 +87,15 @@ public class Logic {
         }
         
         return true;
+    }
+    
+    public void printUserline(String _username)
+    {
+        ArrayList<TweetContainer> tweets = UserLine.getAllTweetFrom(_username);
+        for(TweetContainer tweet : tweets)
+        {
+            System.out.println("Username: " + tweet.getUsername());
+            System.out.println("Body: " + tweet.getBody());
+        }
     }
 }
