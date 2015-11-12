@@ -64,6 +64,7 @@ public class TweetCassandra {
                         if(logic.register(com[1], com[2]))
                         {
                             username = com[1];
+                            first = true;
                             guest = false;
                         }
                         break;
@@ -86,6 +87,7 @@ public class TweetCassandra {
                 if(first)
                     System.out.println("Selamat datang " + username);
                 System.out.print(username + ":~$ ");
+                
                 Scanner in = new Scanner(System.in);
                 String command = in.nextLine();
 

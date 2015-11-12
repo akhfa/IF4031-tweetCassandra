@@ -6,9 +6,12 @@
 package model;
 
 import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 /**
  *
@@ -33,5 +36,43 @@ public class User {
                                 .value("password", password);
         ResultSet result = session.execute(insert.toString());
         Connection.close();
+    }
+    
+    public boolean exist()
+    {
+        Session session = Connection.getSession();
+        
+        Statement statement = QueryBuilder.select("username")
+                                            .from("pat", "users")
+                                            .where(eq("username", username));
+        ResultSet results = session.execute(statement);
+        Row row = results.one();
+        return row != null;
+    }
+    
+    /**
+     * Fungsi untuk mengecek username dan password
+     * @return 
+     */
+    public boolean login()
+    {
+        Session session = Connection.getSession();
+        
+        Statement statement = QueryBuilder.select().all()
+                                            .from("pat", "users")
+                                            .where(eq("username", username));
+        ResultSet results = session.execute(statement);
+        
+        Row row = results.one();
+        
+        if(row != null)
+        {
+            String dbpassword = row.getString("password");
+            return password.equals(dbpassword);
+        }
+        else
+        {
+            return false;
+        }
     }
 }
