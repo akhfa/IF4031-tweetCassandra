@@ -34,7 +34,7 @@ public class Logic {
     {
         User user = new User(username, password);
         
-        if(user.exist())
+        if(!user.exist())
         {
             user.save();
             return true;

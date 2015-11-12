@@ -5,24 +5,9 @@
  */
 package tweetcassandra;
 
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-import com.datastax.driver.core.querybuilder.Insert;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.datastax.driver.core.utils.UUIDs;
 import controller.Logic;
-import java.util.Date;
 import java.util.Scanner;
 //import java.util.UUID;
-import model.Connection;
-import model.Follower;
-import model.Friend;
-import model.TimeLine;
-import model.Tweet;
-import model.User;
-import model.UserLine;
 
 /**
  *
@@ -66,6 +51,10 @@ public class TweetCassandra {
                             username = com[1];
                             first = true;
                             guest = false;
+                        }
+                        else
+                        {
+                            System.out.println("User exist");
                         }
                         break;
                     case "login":
