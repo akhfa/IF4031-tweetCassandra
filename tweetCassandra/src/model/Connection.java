@@ -19,7 +19,7 @@ public class Connection {
     public static Session getSession()
     {
         cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
-        session = cluster.connect("pat");
+        session = cluster.connect(getKeySpace());
         return session;
     }
     public static void close()
